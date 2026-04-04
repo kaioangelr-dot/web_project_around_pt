@@ -35,9 +35,7 @@ let initialCards = [
   },
 ];
 
-for (let i = 0; i < initialCards.length; i++) {
-  console.log(initialCards[i].name);
-}
+initialCards.forEach((card) => console.log(card.name));
 
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
