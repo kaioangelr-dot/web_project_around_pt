@@ -176,5 +176,4 @@ imagePopupCloseBtn.addEventListener("click", function () {
 
 //render the initial cards on the page by iterating over the initialCards array and calling the renderCard function for each card
 initialCards.forEach((card) =>
-  renderCard(card.name, card.link, cardsContainer),
-);
+  renderCard(card.name, card.link, cardsContainer)); //prettier-ignore
