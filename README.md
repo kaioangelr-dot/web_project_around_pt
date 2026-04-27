@@ -18,6 +18,7 @@ This project was started by another developer who created the HTML and CSS. My r
 - Cards like button
 - Cards delete button
 - Responsive design for all devices
+- Formularies verification
 
 ## Technologies Used
 
@@ -36,6 +37,7 @@ This project was started by another developer who created the HTML and CSS. My r
 - Add more functionalities and interactivity for a webpage
 - JavaScript logic confidence
 - Form submit
+- How to verify forms and manage the user's usuage
 
 ## Future Enhancements
 
@@ -45,6 +47,7 @@ This project was started by another developer who created the HTML and CSS. My r
 - Profile picture edition
 - Css Masonry
 - Card size adjustment
+- Reset form validations
 
 ## Contributing
 

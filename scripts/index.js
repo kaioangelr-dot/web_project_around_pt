@@ -1,7 +1,15 @@
 //selectors for the edit profile button and the edit profile popup and its close button
 const editBtn = document.querySelector(".profile__edit-button");
 const editPopup = document.querySelector("#edit-popup");
+const popupContent = editPopup.querySelector(".popup__content");
 const editCloseBtn = editPopup.querySelector(".popup__close");
+
+//card and profile forms and inputs and buttons
+const editProfileForm = document.querySelector("#edit-profile-form");
+const inputs = document.querySelectorAll(".popup__input");
+const submitBtn = document.querySelector(".popup__button");
+const addCardForm = document.querySelector("#new-card-form");
+const forms = document.querySelector(".popup__form");
 
 //selectors for the profile name and description elements on the page
 const profileName = document.querySelector(".profile__title");
@@ -96,12 +104,12 @@ function getCardElement(name, link) {
 
   //add the name and link to the card image, if they are provided, otherwise use default values
   const cardTitle = cardElement.querySelector(".card__title");
-  cardTitle.textContent = name ? name : "Lugar sem nome";
+  cardTitle.textContent = name;
 
   const cardImage = cardElement.querySelector(".card__image");
-  cardImage.src = link ? link : "../images/placeholder.jpg";
+  cardImage.src = link;
 
-  cardImage.alt = name ? name : "Imagem de um lugar sem nome";
+  cardImage.alt = name;
 
   //add event listeners to the like button and the delete button of the card
   const cardLikeBtn = cardElement.querySelector(".card__like-button");
@@ -177,3 +185,69 @@ imagePopupCloseBtn.addEventListener("click", function () {
 //render the initial cards on the page by iterating over the initialCards array and calling the renderCard function for each card
 initialCards.forEach((card) =>
   renderCard(card.name, card.link, cardsContainer)); //prettier-ignore
+
+//show error messages and changes the form styles
+function showInputError(inputElement, errorMessage) {
+  const errorElement = inputElement.parentElement.querySelector(
+    `.${inputElement.id}-input-error`); //prettier-ignore
+  inputElement.classList.add("popup__input_type_error");
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add("popup__input-error_active");
+}
+
+//remove error messages and styles
+function hideInputError(inputElement) {
+  const errorElement = inputElement.parentElement.querySelector(
+    `.${inputElement.id}-input-error`); //prettier-ignore
+  inputElement.classList.remove("popup__input_type_error");
+  errorElement.textContent = "";
+  errorElement.classList.remove("popup__input-error_active");
+}
+
+//disable button if any input is invalid
+function toggleButtonState(inputElement) {
+  const currentForm = inputElement.closest(".popup__form");
+  const formInputs = currentForm.querySelectorAll(".popup__input");
+  const allValid = Array.from(formInputs).every((input) => input.validity.valid); //prettier-ignore
+  const btn = currentForm.querySelector(".popup__button");
+  btn.disabled = !allValid;
+}
+
+//check if theres any invalid camp and add an error message and disable the button, if not, the error message is hiden and the button abled
+inputs.forEach((input) => {
+  input.addEventListener("input", () => {
+    if (!input.validity.valid) {
+      showInputError(input, input.validationMessage);
+    } else {
+      hideInputError(input);
+    }
+    toggleButtonState(input);
+  });
+});
+
+//close the popup if the overlay is clicked
+function handleOverlayCloseClick(popup) {
+  popup.addEventListener("click", function (evt) {
+    if (evt.target === popup) {
+      closeModal(popup);
+    }
+  });
+}
+
+//close the popup when escape is pressed
+function handleEscapeKey(evt) {
+  if (evt.key === "Escape") {
+    const openedPopup = document.querySelector(".popup_is-opened");
+    if (openedPopup) {
+      closeModal(openedPopup);
+    }
+  }
+}
+
+//call the function handleEscapeKey when a key is pressed
+document.addEventListener("keydown", handleEscapeKey);
+
+//call the function handleOverlayCloseClick for each popup
+handleOverlayCloseClick(editPopup);
+handleOverlayCloseClick(addCardPopup);
+handleOverlayCloseClick(imagePopup);
