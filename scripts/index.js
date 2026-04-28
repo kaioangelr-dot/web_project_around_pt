@@ -1,15 +1,10 @@
-//selectors for the edit profile button and the edit profile popup and its close button
+//selectors for the edit profile button and the edit profile popup
 const editBtn = document.querySelector(".profile__edit-button");
 const editPopup = document.querySelector("#edit-popup");
 const popupContent = editPopup.querySelector(".popup__content");
-const editCloseBtn = editPopup.querySelector(".popup__close");
 
-//card and profile forms and inputs and buttons
-const editProfileForm = document.querySelector("#edit-profile-form");
-const inputs = document.querySelectorAll(".popup__input");
-const submitBtn = document.querySelector(".popup__button");
-const addCardForm = document.querySelector("#new-card-form");
-const forms = document.querySelector(".popup__form");
+//all close buttons selector
+const closeButtons = document.querySelectorAll(".popup__close");
 
 //selectors for the profile name and description elements on the page
 const profileName = document.querySelector(".profile__title");
@@ -19,23 +14,25 @@ const profileDescription = document.querySelector(".profile__description");
 const editName = editPopup.querySelector(".popup__input_type_name");
 const editDescription = editPopup.querySelector(".popup__input_type_description"); /* prettier-ignore */
 
-//selectors for the cards container, the add card button and the add card popup and its close button
+//selectors for the cards container, the add card button and the add card popup
 const cardsContainer = document.querySelector(".cards__list");
 const addCardBtn = document.querySelector(".profile__add-button");
 const addCardPopup = document.querySelector("#new-card-popup");
-const addCardCloseBtn = addCardPopup.querySelector(".popup__close");
 
+//select the card template
+const cardTemplate = document
+  .querySelector("#card-template")
+  .content.querySelector(".card");
 //selectors for the add card popup form inputs
 const addCardName = addCardPopup.querySelector(".popup__input_type_card-name");
 const addCardLink = addCardPopup.querySelector(".popup__input_type_url");
 
 //selectors for the image popup and its elements
 const imagePopup = document.querySelector("#image-popup");
-const imagePopupCloseBtn = imagePopup.querySelector(".popup__close");
 const imagePopupImage = imagePopup.querySelector(".popup__image");
 const imagePopupCaption = imagePopup.querySelector(".popup__caption");
 
-let initialCards = [
+const initialCards = [
   {
     name: "Vale de Yosemite",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
@@ -62,14 +59,26 @@ let initialCards = [
   },
 ];
 
+//close the popup when escape is pressed
+function handleEscapeKey(evt) {
+  if (evt.key === "Escape") {
+    const openedPopup = document.querySelector(".popup_is-opened");
+    if (openedPopup) {
+      closeModal(openedPopup);
+    }
+  }
+}
+
 //opens the modal by adding the "popup_is-opened" class to the modal element
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
+  document.addEventListener("keydown", handleEscapeKey);
 }
 
 //closes the modal by removing the "popup_is-opened" class from the modal element
 function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
+  document.removeEventListener("keydown", handleEscapeKey);
 }
 
 //fills the edit form with the current profile name and description
@@ -96,10 +105,7 @@ function handleProfileFormSubmit(evt) {
 
 //creates the card element based on the template and fills it with the provided name and link
 function getCardElement(name, link) {
-  //select the card template and clone it to create a new card element
-  const cardTemplate = document
-    .querySelector("#card-template")
-    .content.querySelector(".card");
+  //clone the cardTemplate to create a new card element
   const cardElement = cardTemplate.cloneNode(true);
 
   //add the name and link to the card image, if they are provided, otherwise use default values
@@ -125,9 +131,9 @@ function getCardElement(name, link) {
   //selectors for the image popup and its elements
   cardImage.addEventListener("click", function () {
     openModal(imagePopup);
-    imagePopupImage.src = link ? link : "../images/placeholder.jpg";
-    imagePopupImage.alt = name ? name : "Imagem de um lugar sem nome";
-    imagePopupCaption.textContent = name ? name : "Lugar sem nome";
+    imagePopupImage.src = link;
+    imagePopupImage.alt = name;
+    imagePopupCaption.textContent = name;
   });
 
   return cardElement;
@@ -156,74 +162,31 @@ function handleCardFormSubmit(evt) {
   closeModal(addCardPopup);
 }
 
-//adds event listeners to the edit button and the close button of the edit popup
+//adds event listeners to the edit button to open the edit popup and fill the form with the current profile name and description when the button is clicked
 editBtn.addEventListener("click", handleOpenEditModal);
-
-editCloseBtn.addEventListener("click", function () {
-  closeModal(editPopup);
-});
 
 //adds an event listener to the edit form to handle the form submission and update the profile information
 editPopup.addEventListener("submit", handleProfileFormSubmit);
 
-//adds event listeners to the add card button and the close button of the add card popup
+//adds event listeners to all close buttons to close the respective popup when the button is clicked
+closeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const popup = button.closest(".popup_is-opened");
+    closeModal(popup);
+  });
+});
+
+//adds event listeners to the add card button
 addCardBtn.addEventListener("click", function () {
   openModal(addCardPopup);
-});
-addCardCloseBtn.addEventListener("click", function () {
-  closeModal(addCardPopup);
 });
 
 //adds an event listener to the add card form to handle the form submission and add a new card to the page
 addCardPopup.addEventListener("submit", handleCardFormSubmit);
 
-//add an event listener to the close button of the image popup to close the popup when the button is clicked
-imagePopupCloseBtn.addEventListener("click", function () {
-  closeModal(imagePopup);
-});
-
 //render the initial cards on the page by iterating over the initialCards array and calling the renderCard function for each card
 initialCards.forEach((card) =>
   renderCard(card.name, card.link, cardsContainer)); //prettier-ignore
-
-//show error messages and changes the form styles
-function showInputError(inputElement, errorMessage) {
-  const errorElement = inputElement.parentElement.querySelector(
-    `.${inputElement.id}-input-error`); //prettier-ignore
-  inputElement.classList.add("popup__input_type_error");
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add("popup__input-error_active");
-}
-
-//remove error messages and styles
-function hideInputError(inputElement) {
-  const errorElement = inputElement.parentElement.querySelector(
-    `.${inputElement.id}-input-error`); //prettier-ignore
-  inputElement.classList.remove("popup__input_type_error");
-  errorElement.textContent = "";
-  errorElement.classList.remove("popup__input-error_active");
-}
-
-//disable button if any input is invalid
-function toggleButtonState(inputElement) {
-  const currentForm = inputElement.closest(".popup__form");
-  const formInputs = currentForm.querySelectorAll(".popup__input");
-  const allValid = Array.from(formInputs).every((input) => input.validity.valid); //prettier-ignore
-  const btn = currentForm.querySelector(".popup__button");
-  btn.disabled = !allValid;
-}
-
-//check if theres any invalid camp and add an error message and disable the button, if not, the error message is hiden and the button abled
-inputs.forEach((input) => {
-  input.addEventListener("input", () => {
-    if (!input.validity.valid) {
-      showInputError(input, input.validationMessage);
-    } else {
-      hideInputError(input);
-    }
-    toggleButtonState(input);
-  });
-});
 
 //close the popup if the overlay is clicked
 function handleOverlayCloseClick(popup) {
@@ -233,19 +196,6 @@ function handleOverlayCloseClick(popup) {
     }
   });
 }
-
-//close the popup when escape is pressed
-function handleEscapeKey(evt) {
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(".popup_is-opened");
-    if (openedPopup) {
-      closeModal(openedPopup);
-    }
-  }
-}
-
-//call the function handleEscapeKey when a key is pressed
-document.addEventListener("keydown", handleEscapeKey);
 
 //call the function handleOverlayCloseClick for each popup
 handleOverlayCloseClick(editPopup);
