@@ -1,10 +1,12 @@
+//selectors for all popups on the page
+const popups = document.querySelectorAll(".popup");
+
 //selectors for the edit profile button and the edit profile popup
 const editBtn = document.querySelector(".profile__edit-button");
 const editPopup = document.querySelector("#edit-popup");
-const popupContent = editPopup.querySelector(".popup__content");
 
 //all close buttons selector
-const closeButtons = document.querySelectorAll(".popup__close");
+const closeBtns = document.querySelectorAll(".popup__close");
 
 //selectors for the profile name and description elements on the page
 const profileName = document.querySelector(".profile__title");
@@ -169,7 +171,7 @@ editBtn.addEventListener("click", handleOpenEditModal);
 editPopup.addEventListener("submit", handleProfileFormSubmit);
 
 //adds event listeners to all close buttons to close the respective popup when the button is clicked
-closeButtons.forEach((button) => {
+closeBtns.forEach((button) => {
   button.addEventListener("click", () => {
     const popup = button.closest(".popup_is-opened");
     closeModal(popup);
@@ -188,16 +190,11 @@ addCardPopup.addEventListener("submit", handleCardFormSubmit);
 initialCards.forEach((card) =>
   renderCard(card.name, card.link, cardsContainer)); //prettier-ignore
 
-//close the popup if the overlay is clicked
-function handleOverlayCloseClick(popup) {
+//adds an event listener to each popup to close the popup when the user clicks outside the popup content
+popups.forEach((popup) => {
   popup.addEventListener("click", function (evt) {
     if (evt.target === popup) {
       closeModal(popup);
     }
   });
-}
-
-//call the function handleOverlayCloseClick for each popup
-handleOverlayCloseClick(editPopup);
-handleOverlayCloseClick(addCardPopup);
-handleOverlayCloseClick(imagePopup);
+});
