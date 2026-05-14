@@ -1,14 +1,13 @@
-const forms = document.querySelectorAll(".popup__form");
-
 //configuration object for the form validation, containing the selectors and class names used in the validation process
-const config = {
+export const config = {
   inputSelector: ".popup__input",
   submitBtnSelector: ".popup__button",
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__input-error_active",
 };
 
-class FormValidator {
+//import the configuration object for form validation from the FormValidator.js file
+export class FormValidator {
   constructor(config, formElement) {
     this._config = config;
     this._formElement = formElement;
@@ -34,6 +33,15 @@ class FormValidator {
     errorElement.classList.remove(this._config.errorClass);
   }
 
+  resetValidation() {
+    this._toggleButtonState();
+    if (!document.querySelector(".popup_is-opened")) {
+      this._inputList.forEach((input) => {
+        this._hideInputError(input);
+      });
+    }
+  }
+
   //check if theres any invalid camp and add an error message, if not, the error message is hiden
   _checkInputValidity(inputElement) {
     if (!inputElement.validity.valid) {
@@ -51,9 +59,6 @@ class FormValidator {
 
   //check if theres any invalid camp and add an error message and disable the button, if not, the error message is hiden and the button abled
   setEventListeners() {
-    //initial button state
-    this._toggleButtonState();
-
     //add event listeners to the inputs of the form, input validity, and toggle the button state every time the user types something in the input
     this._inputList.forEach((input) => {
       input.addEventListener("input", () => {
@@ -63,8 +68,3 @@ class FormValidator {
     });
   }
 }
-
-forms.forEach((form) => {
-  const formValidator = new FormValidator(config, form);
-  formValidator.setEventListeners();
-});

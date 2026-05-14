@@ -1,3 +1,5 @@
+import { FormValidator, config } from "./FormValidator.js";
+
 //import the Card class from the Card.js file to create and manage card elements on the page
 import Card from "./Card.js";
 //import the necessary elements and functions from the utils.js file to manage the popups and forms on the page
@@ -16,6 +18,7 @@ const popups = document.querySelectorAll(".popup");
 //selectors for the edit profile button and the edit profile popup
 const editBtn = document.querySelector(".profile__edit-button");
 export const editPopup = document.querySelector("#edit-popup");
+const editForm = editPopup.querySelector(".popup__form");
 
 //all close buttons selector
 const closeBtns = document.querySelectorAll(".popup__close");
@@ -30,10 +33,17 @@ export const profileDescription = document.querySelector(
 export const editName = editPopup.querySelector(".popup__input_type_name");
 export const editDescription = editPopup.querySelector(".popup__input_type_description"); /* prettier-ignore */
 
-//selectors for the cards container, the add card button and the add card popup
+//selectors for the cards container and the add card popup and its form
 export const cardsContainer = document.querySelector(".cards__list");
 const addCardBtn = document.querySelector(".profile__add-button");
 export const addCardPopup = document.querySelector("#new-card-popup");
+const addCardForm = addCardPopup.querySelector(".popup__form");
+
+//create instances of the FormValidator class for the edit profile form and the add card form, passing the configuration object and the respective form element to the constructor
+const cardFormValidator = new FormValidator(config, addCardForm);
+const profileFormValidator = new FormValidator(config, editForm);
+
+const arrFormValidators = [cardFormValidator, profileFormValidator];
 
 const initialCards = [
   {
@@ -95,6 +105,8 @@ closeBtns.forEach((button) => {
   button.addEventListener("click", () => {
     const popup = button.closest(".popup_is-opened");
     closeModal(popup);
+    cardFormValidator.resetValidation();
+    profileFormValidator.resetValidation();
   });
 });
 
@@ -111,6 +123,10 @@ popups.forEach((popup) => {
   popup.addEventListener("click", function (evt) {
     if (evt.target === popup) {
       closeModal(popup);
+      cardFormValidator.resetValidation();
+      profileFormValidator.resetValidation();
     }
   });
 });
+
+arrFormValidators.forEach((formValidator) => formValidator.setEventListeners());
