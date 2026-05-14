@@ -105,8 +105,7 @@ closeBtns.forEach((button) => {
   button.addEventListener("click", () => {
     const popup = button.closest(".popup_is-opened");
     closeModal(popup);
-    cardFormValidator.resetValidation();
-    profileFormValidator.resetValidation();
+    arrFormValidators.forEach((formValidator) => formValidator.resetValidation()); //prettier-ignore
   });
 });
 
@@ -123,8 +122,7 @@ popups.forEach((popup) => {
   popup.addEventListener("click", function (evt) {
     if (evt.target === popup) {
       closeModal(popup);
-      cardFormValidator.resetValidation();
-      profileFormValidator.resetValidation();
+      arrFormValidators.forEach((formValidator) => formValidator.resetValidation()); //prettier-ignore
     }
   });
 });
