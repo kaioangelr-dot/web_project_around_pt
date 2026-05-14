@@ -43,6 +43,7 @@ const addCardForm = addCardPopup.querySelector(".popup__form");
 const cardFormValidator = new FormValidator(config, addCardForm);
 const profileFormValidator = new FormValidator(config, editForm);
 
+//array to store the form validator instances for easy access when resetting the validation state of the forms
 const arrFormValidators = [cardFormValidator, profileFormValidator];
 
 const initialCards = [
@@ -100,15 +101,6 @@ editBtn.addEventListener("click", handleOpenEditModal);
 //adds an event listener to the edit form to handle the form submission and update the profile information
 editPopup.addEventListener("submit", handleProfileFormSubmit);
 
-//adds event listeners to all close buttons to close the respective popup when the button is clicked
-closeBtns.forEach((button) => {
-  button.addEventListener("click", () => {
-    const popup = button.closest(".popup_is-opened");
-    closeModal(popup);
-    arrFormValidators.forEach((formValidator) => formValidator.resetValidation()); //prettier-ignore
-  });
-});
-
 //adds event listeners to the add card button
 addCardBtn.addEventListener("click", function () {
   openModal(addCardPopup);
@@ -117,14 +109,20 @@ addCardBtn.addEventListener("click", function () {
 //adds an event listener to the add card form to handle the form submission and add a new card to the page
 addCardPopup.addEventListener("submit", handleCardFormSubmit);
 
-//adds an event listener to each popup to close the popup when the user clicks outside the popup content
-popups.forEach((popup) => {
-  popup.addEventListener("click", function (evt) {
-    if (evt.target === popup) {
-      closeModal(popup);
-      arrFormValidators.forEach((formValidator) => formValidator.resetValidation()); //prettier-ignore
-    }
+//adds event listeners to all close buttons and popups to close the respective popup when the button is clicked or when the user clicks outside the popup content
+[popups, closeBtns].forEach((closeElements) => {
+  closeElements.forEach((element) => {
+    element.addEventListener("click", (evt) => {
+      const popup = element.closest(".popup_is-opened");
+      if (evt.target === element) {
+        closeModal(popup);
+
+        //reset the validation state of the forms when a popup is closed, clearing any error messages and resetting the submit button state
+        arrFormValidators.forEach((formValidator) => formValidator.resetValidation()); //prettier-ignore
+      }
+    });
   });
 });
 
+//add event listeners to the inputs of the forms, input validity, and toggle the button state every time the user types something in the input
 arrFormValidators.forEach((formValidator) => formValidator.setEventListeners());

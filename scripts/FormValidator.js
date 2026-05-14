@@ -33,6 +33,7 @@ export class FormValidator {
     errorElement.classList.remove(this._config.errorClass);
   }
 
+  //reset the validation state of the form, clearing any error messages and resetting the submit button state
   resetValidation() {
     this._toggleButtonState();
     if (!document.querySelector(".popup_is-opened")) {
