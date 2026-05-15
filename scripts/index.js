@@ -44,7 +44,7 @@ const cardFormValidator = new FormValidator(config, addCardForm);
 const profileFormValidator = new FormValidator(config, editForm);
 
 //array to store the form validator instances for easy access when resetting the validation state of the forms
-const arrFormValidators = [cardFormValidator, profileFormValidator];
+export const arrFormValidators = [cardFormValidator, profileFormValidator];
 
 const initialCards = [
   {
@@ -113,9 +113,6 @@ addCardPopup.addEventListener("submit", handleCardFormSubmit);
       const popup = element.closest(".popup_is-opened");
       if (evt.target === element) {
         closeModal(popup);
-
-        //reset the validation state of the forms when a popup is closed, clearing any error messages and resetting the submit button state
-        arrFormValidators.forEach((formValidator) => formValidator.resetValidation()); //prettier-ignore
       }
     });
   });

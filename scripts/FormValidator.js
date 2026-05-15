@@ -12,7 +12,9 @@ export class FormValidator {
     this._config = config;
     this._formElement = formElement;
     this._inputList = Array.from(this._formElement.querySelectorAll(this._config.inputSelector)); //prettier-ignore
-    this._submitBtn = this._formElement.querySelector(this._config.submitBtnSelector); //prettier-ignore
+    this._submitBtn = this._formElement.querySelector(
+      this._config.submitBtnSelector,
+    );
   }
 
   //show error messages and changes the form styles
@@ -50,18 +52,18 @@ export class FormValidator {
 
   //disable button if any input is invalid
   _toggleButtonState() {
-    const allValid = this._inputList.every((input) => input.validity.valid); //prettier-ignore
+    const allValid = this._inputList.every((input) => input.validity.valid);
     this._submitBtn.disabled = !allValid;
   }
 
   //check if theres any invalid camp and add an error message and disable the button, if not, the error message is hiden and the button abled
   setEventListeners() {
     //add event listeners to the inputs of the form, input validity, and toggle the button state every time the user types something in the input
-    this._inputList.forEach((input) =>
+    this._inputList.forEach((input) => {
       input.addEventListener("input", () => {
         this._checkInputValidity(input);
         this._toggleButtonState();
-      }),
-    );
+      });
+    });
   }
 }

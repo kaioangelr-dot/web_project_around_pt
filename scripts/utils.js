@@ -9,6 +9,7 @@ import {
   cardsContainer,
   renderCard,
   fillProfileForm, //prettier-ignore
+  arrFormValidators,
 } from "./index.js";
 
 //selectors for the add card popup form inputs
@@ -25,6 +26,9 @@ export function openModal(modal) {
 export function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", handleEscapeKey);
+
+  //reset the validation state of the forms when a popup is closed, clearing any error messages and resetting the submit button state
+  arrFormValidators.forEach((formValidator) => formValidator.resetValidation()); //prettier-ignore
 }
 
 //opens the edit popup and fills the form with the current profile name and description when the edit button is clicked
