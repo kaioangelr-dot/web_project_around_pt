@@ -78,7 +78,7 @@
               minlength="2"
               maxlength="40"
               required
-            /><span class="name-input-error popup__input-error"></span>
+            /><span id="name-input-error" class="popup__input-error"></span>
             <input
               class="popup__input popup__input_type_description"
               name="description"
@@ -88,7 +88,10 @@
               minlength="2"
               maxlength="200"
               required
-            /><span class="description-input-error popup__input-error"></span>
+            /><span
+              id="description-input-error"
+              class="popup__input-error"
+            ></span>
             <button class="button popup__button" type="submit" disabled>
               Salvar
             </button>
@@ -113,7 +116,10 @@
               type="text"
               minlength="2"
               maxlength="40"
-            /><span class="place-name-input-error popup__input-error"></span>
+            /><span
+              id="place-name-input-error"
+              class="popup__input-error"
+            ></span>
             <input
               class="popup__input popup__input_type_url"
               name="link"
@@ -121,7 +127,7 @@
               placeholder="Link de Imagem"
               required
               type="url"
-            /><span class="link-input-error popup__input-error"></span>
+            /><span id="link-input-error" class="popup__input-error"></span>
             <button class="button popup__button" type="submit" disabled>
               Criar
             </button>

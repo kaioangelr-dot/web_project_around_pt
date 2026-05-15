@@ -23,19 +23,16 @@ export default class Card {
   _setEventListeners() {
     //add event listeners to the like button and the delete button of the card
     const cardLikeBtn = this._element.querySelector(".card__like-button");
-    cardLikeBtn.addEventListener("click", (evt) => {
-      evt.target.classList.toggle("card__like-button_is-active");
-    });
+    cardLikeBtn.addEventListener("click", (evt) => evt.target.classList.toggle("card__like-button_is-active")); //prettier-ignore
 
     const cardDeleteBtn = this._element.querySelector(".card__delete-button");
-    cardDeleteBtn.addEventListener("click", (evt) => {
-      evt.target.closest(".card").remove();
-    });
+    cardDeleteBtn.addEventListener("click", (evt) => evt.target.closest(".card").remove()); //prettier-ignore
 
     //selectors for the image popup and its elements
     const imagePopup = document.querySelector("#image-popup");
     const imagePopupImage = imagePopup.querySelector(".popup__image");
     const imagePopupCaption = imagePopup.querySelector(".popup__caption");
+
     //selectors for the image popup and its elements
     this._cardImage.addEventListener("click", () => {
       openModal(imagePopup);

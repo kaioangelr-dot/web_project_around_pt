@@ -92,8 +92,7 @@ export function renderCard(name, link, container) {
 }
 
 //render the initial cards on the page by iterating over the initialCards array and calling the renderCard function for each card
-initialCards.forEach((card) =>
-  renderCard(card.name, card.link, cardsContainer)); //prettier-ignore
+initialCards.forEach((card) => renderCard(card.name, card.link, cardsContainer)); //prettier-ignore
 
 //adds event listeners to the edit button to open the edit popup and fill the form with the current profile name and description when the button is clicked
 editBtn.addEventListener("click", handleOpenEditModal);
@@ -102,9 +101,7 @@ editBtn.addEventListener("click", handleOpenEditModal);
 editPopup.addEventListener("submit", handleProfileFormSubmit);
 
 //adds event listeners to the add card button
-addCardBtn.addEventListener("click", function () {
-  openModal(addCardPopup);
-});
+addCardBtn.addEventListener("click", () => openModal(addCardPopup));
 
 //adds an event listener to the add card form to handle the form submission and add a new card to the page
 addCardPopup.addEventListener("submit", handleCardFormSubmit);

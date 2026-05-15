@@ -17,8 +17,7 @@ export class FormValidator {
 
   //show error messages and changes the form styles
   _showInputError(inputElement, errorMessage) {
-    const errorElement = inputElement.parentElement.querySelector(
-    `.${inputElement.id}-input-error`); //prettier-ignore
+    const errorElement = document.getElementById(`${inputElement.id}-input-error`); //prettier-ignore
     inputElement.classList.add(this._config.inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(this._config.errorClass);
@@ -26,8 +25,7 @@ export class FormValidator {
 
   //remove error messages and styles
   _hideInputError(inputElement) {
-    const errorElement = inputElement.parentElement.querySelector(
-    `.${inputElement.id}-input-error`); //prettier-ignore
+    const errorElement = document.getElementById(`${inputElement.id}-input-error`); //prettier-ignore
     inputElement.classList.remove(this._config.inputErrorClass);
     errorElement.textContent = "";
     errorElement.classList.remove(this._config.errorClass);
@@ -37,9 +35,7 @@ export class FormValidator {
   resetValidation() {
     this._toggleButtonState();
     if (!document.querySelector(".popup_is-opened")) {
-      this._inputList.forEach((input) => {
-        this._hideInputError(input);
-      });
+      this._inputList.forEach((input) => this._hideInputError(input));
     }
   }
 
@@ -61,11 +57,11 @@ export class FormValidator {
   //check if theres any invalid camp and add an error message and disable the button, if not, the error message is hiden and the button abled
   setEventListeners() {
     //add event listeners to the inputs of the form, input validity, and toggle the button state every time the user types something in the input
-    this._inputList.forEach((input) => {
+    this._inputList.forEach((input) =>
       input.addEventListener("input", () => {
         this._checkInputValidity(input);
         this._toggleButtonState();
-      });
-    });
+      }),
+    );
   }
 }
