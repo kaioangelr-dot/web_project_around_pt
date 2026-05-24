@@ -42,14 +42,12 @@ export const cardList = new Section(
         { name: item.name, link: item.link },
         "#card-template",
         //object with a handleCardClick method that creates a new instance of the PopupWithImage class and adds an event listener to the card image to open the popup with the respective name and link when the image is clicked
-        {
-          handleCardClick: (cardImage, name, link) => {
-            const imagePopupInstance = new PopupWithImage("#image-popup");
-            cardImage.addEventListener("click", () => {
-              imagePopupInstance.open(name, link);
-              imagePopupInstance.setEventListeners();
-            });
-          },
+        (cardImage, name, link) => {
+          const imagePopupInstance = new PopupWithImage("#image-popup");
+          cardImage.addEventListener("click", () => {
+            imagePopupInstance.open(name, link);
+            imagePopupInstance.setEventListeners();
+          });
         },
       );
 
