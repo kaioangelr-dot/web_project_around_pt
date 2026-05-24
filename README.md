@@ -28,7 +28,7 @@ This project was started by another developer who created the HTML and CSS. My r
 - DOM manipulation
 - Event handling
 - Array methods for data management
-- OOP
+- Object-Oriented Programming (OOP)
 
 ## What I Learned
 
@@ -40,6 +40,7 @@ This project was started by another developer who created the HTML and CSS. My r
 - Form submit
 - How to verify forms and manage the user's usuage
 - OOP fundamentals and JavaScript classes
+- Advanced OOP "Encapsulation and Inheritance"
 
 ## Future Enhancements
 
@@ -65,7 +66,11 @@ web_project_around_pt/
 │   │── index.js
 │   │── FormValidator.js
 │   │── Card.js
-│   └── utils.js
+│   │── utils.js
+│   │── Components/
+│   │   └── [components files]
+│   └── constants/
+│       └── constants.js
 ├── styles/
 │   └── index.css
 ├── vendor/

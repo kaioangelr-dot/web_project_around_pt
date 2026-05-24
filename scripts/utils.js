@@ -1,70 +1,44 @@
-//import the necessary elements and functions from the index.js file to manage the popups and forms on the page
+import Card from "./Card.js";
+
+import PopupWithImage from "./Components/PopupWithImage.js";
+
 import {
-  editPopup,
-  addCardPopup,
-  profileName,
-  profileDescription,
-  editName,
-  editDescription,
-  cardsContainer,
-  renderCard,
-  fillProfileForm, //prettier-ignore
-  arrFormValidators,
+  cardList,
+  editPopupInstance,
+  addCardPopupInstance,
+  userInfoInstance,
 } from "./index.js";
 
-//selectors for the add card popup form inputs
-const addCardName = document.querySelector(".popup__input_type_card-name");
-const addCardLink = document.querySelector(".popup__input_type_url");
-
-//opens the modal by adding the "popup_is-opened" class to the modal element
-export function openModal(modal) {
-  modal.classList.add("popup_is-opened");
-  document.addEventListener("keydown", handleEscapeKey);
-}
-
-//closes the modal by removing the "popup_is-opened" class from the modal element
-export function closeModal(modal) {
-  modal.classList.remove("popup_is-opened");
-  document.removeEventListener("keydown", handleEscapeKey);
-
-  //reset the validation state of the forms when a popup is closed, clearing any error messages and resetting the submit button state
-  arrFormValidators.forEach((formValidator) => formValidator.resetValidation()); //prettier-ignore
-}
-
-//opens the edit popup and fills the form with the current profile name and description when the edit button is clicked
-export function handleOpenEditModal() {
-  openModal(editPopup);
-  fillProfileForm();
-}
-
 //adds the new profile name and description to the page and closes the edit popup when the form is submitted
-export function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
+export function handleProfileFormSubmit(inputs) {
+  userInfoInstance.setUserInfo({
+    name: inputs.name,
+    description: inputs.description,
+  });
 
-  profileName.textContent = editName.value;
-  profileDescription.textContent = editDescription.value;
-
-  closeModal(editPopup);
+  editPopupInstance.close();
 }
 
 //adds an event listener to the add card form to handle the form submission and add a new card to the page
-export function handleCardFormSubmit(evt) {
-  evt.preventDefault();
+export function handleCardFormSubmit(inputs) {
+  //create a new card instance using the input values from the form and add it to the page by calling the addItem method of the cardList instance, then close the add card popup
+  const card = new Card(
+    { name: inputs.name, link: inputs.link },
+    "#card-template",
+    {
+      //object with a handleCardClick method that creates a new instance of the PopupWithImage class and adds an event listener to the card image to open the popup with the respective name and link when the image is clicked
+      handleCardClick: (cardImage, name, link) => {
+        const imagePopupInstance = new PopupWithImage("#image-popup");
+        cardImage.addEventListener("click", () => {
+          imagePopupInstance.open(name, link);
+          imagePopupInstance.setEventListeners();
+        });
+      },
+    },
+  );
+  const cardElement = card.generateCard();
 
-  //add a new card to the page using the values from the form inputs and then clear the form inputs
-  renderCard(addCardName.value, addCardLink.value, cardsContainer);
+  cardList.addItem(cardElement);
 
-  //clear the form inputs after adding the card
-  addCardName.value = "";
-  addCardLink.value = "";
-
-  closeModal(addCardPopup);
-}
-
-//close the popup when escape is pressed
-export function handleEscapeKey(evt) {
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(".popup_is-opened");
-    closeModal(openedPopup);
-  }
+  addCardPopupInstance.close();
 }

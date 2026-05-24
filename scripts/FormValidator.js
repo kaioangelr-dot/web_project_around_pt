@@ -1,13 +1,4 @@
-//configuration object for the form validation, containing the selectors and class names used in the validation process
-export const config = {
-  inputSelector: ".popup__input",
-  submitBtnSelector: ".popup__button",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__input-error_active",
-};
-
-//import the configuration object for form validation from the FormValidator.js file
-export class FormValidator {
+export default class FormValidator {
   constructor(config, formElement) {
     this._config = config;
     this._formElement = formElement;

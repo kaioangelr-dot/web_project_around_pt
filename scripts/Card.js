@@ -1,11 +1,9 @@
-//import the openModal and closeModal functions from utils.js
-import { openModal, closeModal } from "./utils.js";
-
 export default class Card {
-  constructor(data, templateSelector) {
+  constructor(data, templateSelector, { handleCardClick }) {
     this._name = data.name;
     this._link = data.link;
     this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   //clone and select the card template to create a new card element
@@ -27,19 +25,7 @@ export default class Card {
 
     const cardDeleteBtn = this._element.querySelector(".card__delete-button");
     cardDeleteBtn.addEventListener("click", (evt) => evt.target.closest(".card").remove()); //prettier-ignore
-
-    //selectors for the image popup and its elements
-    const imagePopup = document.querySelector("#image-popup");
-    const imagePopupImage = imagePopup.querySelector(".popup__image");
-    const imagePopupCaption = imagePopup.querySelector(".popup__caption");
-
-    //selectors for the image popup and its elements
-    this._cardImage.addEventListener("click", () => {
-      openModal(imagePopup);
-      imagePopupImage.src = this._link;
-      imagePopupImage.alt = this._name;
-      imagePopupCaption.textContent = this._name;
-    }); //add event listeners for the like button, delete button and card image here
+    this._handleCardClick(this._cardImage, this._name, this._link);
   }
 
   generateCard() {
