@@ -27,9 +27,7 @@ export default class FormValidator {
   //reset the validation state of the form, clearing any error messages and resetting the submit button state
   resetValidation() {
     this._toggleButtonState();
-    if (!document.querySelector(".popup_is-opened")) {
-      this._inputList.forEach((input) => this._hideInputError(input));
-    }
+    this._inputList.forEach((input) => this._hideInputError(input));
   }
 
   //check if theres any invalid camp and add an error message, if not, the error message is hiden

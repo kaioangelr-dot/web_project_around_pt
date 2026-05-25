@@ -1,7 +1,5 @@
 import Popup from "./Popup.js";
 
-import { cardFormValidator, profileFormValidator } from "../index.js";
-
 export default class PopupWithForm extends Popup {
   constructor(popupSelector, handleFormSubmit) {
     super(popupSelector);
@@ -29,8 +27,5 @@ export default class PopupWithForm extends Popup {
   close() {
     super.close();
     this._form.reset(); //prettier-ignore
-
-    //reset the validation state of the forms when a popup is closed, clearing any error messages and resetting the submit button state
-    [cardFormValidator, profileFormValidator].forEach((formValidator) => formValidator.resetValidation()); //prettier-ignore
   }
 }

@@ -25,6 +25,7 @@ export default class Card {
 
     const cardDeleteBtn = this._element.querySelector(".card__delete-button");
     cardDeleteBtn.addEventListener("click", (evt) => evt.target.closest(".card").remove()); //prettier-ignore
+
     this._handleCardClick(this._cardImage, this._name, this._link);
   }
 
