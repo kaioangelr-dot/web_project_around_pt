@@ -60,6 +60,18 @@
   padding: 34px 36px;
 }
 
+.popup__content_content-delete {
+  max-width: 400px;
+  width: 100%;
+  min-height: 180px;
+}
+
+.popup__content_avatar {
+  max-width: 430px;
+  width: 100%;
+  min-height: 180px;
+}
+
 .popup__form {
   margin-top: 27px;
 }

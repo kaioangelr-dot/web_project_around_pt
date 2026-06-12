@@ -5,7 +5,18 @@ export default class PopupWithForm extends Popup {
     super(popupSelector);
     this._handleFormSubmit = handleFormSubmit;
     this._form = this._popup.querySelector(".popup__form");
+    this._submitBtn = this._form.querySelector(".popup__button");
+    //stores the original text when the popup is instanced
+    this._text = this._submitBtn.textContent;
     this._inputList = this._form.querySelectorAll(".popup__input");
+  }
+
+  renderLoading(isLoading, loadingText = "Salvar...") {
+    if (isLoading) {
+      this._submitBtn.textContent = loadingText;
+    } else {
+      this._submitBtn.textContent = this._text;
+    }
   }
 
   _getInputValues() {
@@ -26,6 +37,6 @@ export default class PopupWithForm extends Popup {
 
   close() {
     super.close();
-    this._form.reset(); //prettier-ignore
+    this._form.reset();
   }
 }
