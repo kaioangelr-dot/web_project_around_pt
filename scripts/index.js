@@ -42,10 +42,7 @@ const avatarInstance = new PopupWithForm("#avatar-popup", handleAvatarFormSubmit
 
 const deletePopupInstance = new PopupWithConfirmation("#delete-popup", handleDeleteConfirmation); //prettier-ignore
 
-const userInfoInstance = new UserInfo({
-  nameSelector: ".profile__title",
-  descriptionSelector: ".profile__description",
-});
+const userInfoInstance = new UserInfo({ nameSelector: ".profile__title", descriptionSelector: ".profile__description"}); //prettier-ignore
 
 const api = new Api({
   baseUrl: "https://around-api.pt-br.tripleten-services.com/v1",
@@ -180,7 +177,7 @@ avatarBtn.addEventListener("click", () => {
   avatarFormValidator.resetValidation();
 });
 
-//----------------------------------------------------//   Apis  //--------------------------------------------//
+//----------------------------------------------------//  Apis  //--------------------------------------------//
 
 api.getAllData().then(([userData, cardsData]) => {
   //user data

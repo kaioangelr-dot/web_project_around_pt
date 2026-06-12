@@ -19,6 +19,7 @@ This project was started by another developer who created the HTML and CSS. My r
 - Cards delete button
 - Responsive design for all devices
 - Formularies verification
+- Server connection
 
 ## Technologies Used
 
@@ -29,6 +30,7 @@ This project was started by another developer who created the HTML and CSS. My r
 - Event handling
 - Array methods for data management
 - Object-Oriented Programming (OOP)
+- Api
 
 ## What I Learned
 
@@ -41,6 +43,7 @@ This project was started by another developer who created the HTML and CSS. My r
 - How to verify forms and manage the user's usuage
 - OOP fundamentals and JavaScript classes
 - Advanced OOP "Encapsulation and Inheritance"
+- To apply api in a project
 
 ## Future Enhancements
 
