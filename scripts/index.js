@@ -183,8 +183,6 @@ avatarBtn.addEventListener("click", () => {
 //----------------------------------------------------//   Apis  //--------------------------------------------//
 
 api.getAllData().then(([userData, cardsData]) => {
-  console.log([userData, cardsData]);
-
   //user data
   profileTitle.textContent = userData.name;
   profileDescription.textContent = userData.about;
