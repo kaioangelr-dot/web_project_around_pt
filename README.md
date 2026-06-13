@@ -63,25 +63,26 @@ This is a learning project, but suggestions and improvements are welcome!
 
 ```
 web_project_around_pt/
-├── index.html
-├── README.md
-├── scripts/
-│   │── index.js
-│   │── FormValidator.js
-│   │── Card.js
-│   │── utils.js
-│   │── Components/
-│   │   └── [components files]
-│   └── constants/
-│       └── constants.js
-├── styles/
-│   └── index.css
-├── vendor/
-│   └── [vendor libraries]
-├── blocks/
-│   └── [BEM block components]
-└── images/
-    └── [profile and card images]
+ └──src
+    ├── index.html
+    ├── README.md
+    ├── scripts/
+    │   │── index.js
+    │   │── FormValidator.js
+    │   │── Card.js
+    │   │── utils.js
+    │   │── Components/
+    │   │   └── [components files]
+    │   └── constants/
+    │       └── constants.js
+    ├── styles/
+    │   └── index.css
+    ├── vendor/
+    │   └── [vendor libraries]
+    ├── blocks/
+    │   └── [BEM block components]
+    └── images/
+        └── [profile and card images]
 ```
 
 ## GitHub Pages

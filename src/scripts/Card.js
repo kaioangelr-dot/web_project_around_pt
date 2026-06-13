@@ -12,6 +12,7 @@ export default class Card {
     /* the like status is set to the opposite, so when the user clicks the like button, 
     the first request will be the opposite of the current like status. */
     this._isLiked = !data.isLiked;
+    this._currentOwner = data.currentOwner;
     this._owner = data.owner;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
@@ -49,20 +50,18 @@ export default class Card {
       this._handleLikeClick(this._id, this._isLiked, cardLikeBtn);
     });
 
-    const cardDeleteBtn = this._element.querySelector(".card__delete-button");
-
-    //remove the delete button if the user is not the card's owner
-    if (!this._owner) {
-      cardDeleteBtn.remove();
-      //add the delete btn event if the user is the card's owner
-    } else {
-      cardDeleteBtn.addEventListener("click", (evt) => {
-        const cardElement = evt.target.closest(".card");
+    //if the owner of the card and user is the same, render a delete button and add an event for it.
+    if (this._owner === this._currentOwner) {
+      const cardDeleteBtn = this._element.querySelector(".card__delete-button");
+      cardDeleteBtn.addEventListener("click", () => {
+        const cardElement = cardDeleteBtn.closest(".card");
         this._handleDeleteClick(this._id, cardElement);
       });
     }
 
-    this._handleCardClick(this._cardImage, this._name, this._link);
+    this._cardImage.addEventListener("click", () => {
+      this._handleCardClick(this._name, this._link);
+    });
   }
 
   generateCard() {

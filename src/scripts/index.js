@@ -40,6 +40,8 @@ const editPopupInstance = new PopupWithForm("#edit-popup", handleProfileFormSubm
 const addCardPopupInstance = new PopupWithForm("#new-card-popup", handleCardFormSubmit); //prettier-ignore
 const avatarInstance = new PopupWithForm("#avatar-popup", handleAvatarFormSubmit); //prettier-ignore
 
+const imagePopupInstance = new PopupWithImage("#image-popup");
+
 const deletePopupInstance = new PopupWithConfirmation("#delete-popup", handleDeleteConfirmation); //prettier-ignore
 
 const userInfoInstance = new UserInfo({ nameSelector: ".profile__title", descriptionSelector: ".profile__description"}); //prettier-ignore
@@ -86,12 +88,10 @@ function handleCardFormSubmit(inputs) {
             const card = new Card(
               { name: item.name, link: item.link, id: data._id },
               "#card-template",
-              (cardImage, name, link) => {
-                const imagePopupInstance = new PopupWithImage("#image-popup");
-                cardImage.addEventListener("click", () => {
-                  imagePopupInstance.open(name, link);
-                  imagePopupInstance.setEventListeners();
-                });
+              //add the popupImage
+              (name, link) => {
+                imagePopupInstance.open(name, link);
+                imagePopupInstance.setEventListeners();
               },
               //updates the like status in the back end when the like button is pressed, but the button is activated in the front end.
               (id, isLiked, cardLikeBtn) => {
@@ -192,15 +192,12 @@ api.getAllData().then(([userData, cardsData]) => {
       //renderer function that creates a new card for each item in the initialCards array and adds it to the container
       renderer: (item) => {
         const card = new Card(
-          { name: item.name, link: item.link, id: item._id, isLiked: item.isLiked, owner: item.owner }, //prettier-ignore
+          { name: item.name, link: item.link, id: item._id, isLiked: item.isLiked, owner: item.owner, currentOwner: userData._id }, //prettier-ignore
           "#card-template",
-          //object with a handleCardClick method that creates a new instance of the PopupWithImage class and adds an event listener to the card image to open the popup with the respective name and link when the image is clicked
-          (cardImage, name, link) => {
-            const imagePopupInstance = new PopupWithImage("#image-popup");
-            cardImage.addEventListener("click", () => {
-              imagePopupInstance.open(name, link);
-              imagePopupInstance.setEventListeners();
-            });
+          //add the popupImage
+          (name, link) => {
+            imagePopupInstance.open(name, link);
+            imagePopupInstance.setEventListeners();
           },
           //updates the like status in the back end when the like button is pressed, but the button is activated in the front end.
           (id, isLike, cardLikeBtn) => {
