@@ -72,12 +72,13 @@ function handleProfileFormSubmit(inputs) {
     .then((data) => {
       editPopupInstance.close();
     })
+    .catch((err) => console.log(err))
     .finally(() => editPopupInstance.renderLoading(false));
 }
 
 function handleCardFormSubmit(inputs) {
   addCardPopupInstance.renderLoading(true, "Crie");
-  //store the inputs values and process them to create cards in the front end and add the card's image and name in the server
+  //stores the inputs values and processes them to create cards in the front end and add the card's image and name in the server
   api
     .addCard(inputs.name, inputs.link)
     .then((data) => {
@@ -96,7 +97,13 @@ function handleCardFormSubmit(inputs) {
               },
               //updates the like status in the back end when the like button is pressed, but the button is activated in the front end.
               (id, isLiked, cardLikeBtn) => {
-                api.toggleLike(id, isLiked, cardLikeBtn);
+                api
+                  .toggleLike(id, isLiked)
+                  //if the server returns an error, the like button is toggled and don't allow likes
+                  .catch((err) => {
+                    cardLikeBtn.classList.toggle("card__like-button_is-active");
+                    console.log(err);
+                  });
               },
 
               (id, cardElement) => {
@@ -117,6 +124,7 @@ function handleCardFormSubmit(inputs) {
 
       addCardPopupInstance.close();
     })
+    .catch((err) => console.log(err))
     .finally(() => addCardPopupInstance.renderLoading(false, "Crie"));
 }
 
@@ -129,14 +137,18 @@ function handleAvatarFormSubmit(inputs) {
       profileAvatar.src = data.avatar;
       avatarInstance.close();
     })
+    .catch((err) => console.log(err))
     .finally(() => avatarInstance.renderLoading(false));
 }
 
 function handleDeleteConfirmation(id, cardElement) {
-  api.deleteCard(id).then(() =>
-    //remove the card in the front end if removed from the server
-    cardElement.remove(),
-  );
+  api
+    .deleteCard(id)
+    .then(() =>
+      //remove the card in the front end if removed from the server
+      cardElement.remove(),
+    )
+    .catch((err) => console.log(err));
 
   deletePopupInstance.close();
 }
@@ -180,43 +192,52 @@ avatarBtn.addEventListener("click", () => {
 
 //----------------------------------------------------//  Apis  //--------------------------------------------//
 
-api.getAllData().then(([userData, cardsData]) => {
-  //user data
-  profileTitle.textContent = userData.name;
-  profileDescription.textContent = userData.about;
-  profileAvatar.src = userData.avatar;
+api
+  .getAllData()
+  .then(([userData, cardsData]) => {
+    //user data
+    profileTitle.textContent = userData.name;
+    profileDescription.textContent = userData.about;
+    profileAvatar.src = userData.avatar;
 
-  //card render data
-  const cardList = new Section(
-    {
-      items: cardsData,
-      //renderer function that creates a new card for each item in the initialCards array and adds it to the container
-      renderer: (item) => {
-        const card = new Card(
-          { name: item.name, link: item.link, id: item._id, isLiked: item.isLiked, owner: item.owner, currentOwner: userData._id }, //prettier-ignore
-          "#card-template",
-          //add the popupImage
-          (name, link) => {
-            imagePopupInstance.open(name, link);
-            imagePopupInstance.setEventListeners();
-          },
-          //updates the like status in the back end when the like button is pressed, but the button is activated in the front end.
-          (id, isLike, cardLikeBtn) => {
-            api.toggleLike(id, isLike, cardLikeBtn);
-          },
+    //card render data
+    const cardList = new Section(
+      {
+        items: cardsData,
+        //renderer function that creates a new card for each item in the initialCards array and adds it to the container
+        renderer: (item) => {
+          const card = new Card(
+            { name: item.name, link: item.link, id: item._id, isLiked: item.isLiked, owner: item.owner, currentOwner: userData._id }, //prettier-ignore
+            "#card-template",
+            //add the popupImage
+            (name, link) => {
+              imagePopupInstance.open(name, link);
+              imagePopupInstance.setEventListeners();
+            },
+            //updates the like status in the back end when the like button is pressed, but the button is activated in the front end.
+            (id, isLike, cardLikeBtn) => {
+              api
+                .toggleLike(id, isLike)
+                //if the server returns an error, the like button is toggled and don't allow likes
+                .catch((err) => {
+                  cardLikeBtn.classList.toggle("card__like-button_is-active");
+                  console.log(err);
+                });
+            },
 
-          (id, cardElement) => {
-            deletePopupInstance.open({ id: id, cardElement: cardElement });
-          },
-        );
+            (id, cardElement) => {
+              deletePopupInstance.open({ id: id, cardElement: cardElement });
+            },
+          );
 
-        const cardElement = card.generateCard();
+          const cardElement = card.generateCard();
 
-        cardList.addItemAppend(cardElement);
+          cardList.addItemAppend(cardElement);
+        },
       },
-    },
-    ".cards__list",
-  );
-  //call the renderer method of the cardList instance to render the initial cards on the page
-  cardList.renderer();
-});
+      ".cards__list",
+    );
+    //call the renderer method of the cardList instance to render the initial cards on the page
+    cardList.renderer();
+  })
+  .catch((err) => console.log(err));

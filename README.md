@@ -30,7 +30,8 @@ This project was started by another developer who created the HTML and CSS. My r
 - Event handling
 - Array methods for data management
 - Object-Oriented Programming (OOP)
-- Api
+- Encapsulation and Inheritance
+- Fetch API
 
 ## What I Learned
 
@@ -41,19 +42,18 @@ This project was started by another developer who created the HTML and CSS. My r
 - JavaScript logic confidence
 - Form submit
 - How to verify forms and manage the user's usuage
-- OOP fundamentals and JavaScript classes
-- Advanced OOP "Encapsulation and Inheritance"
-- To apply api in a project
+- Core **OOP fundamentals**, JavaScript classes, and advanced "Encapsulation and Inheritance" concepts.
+- How to apply and integrate an **API** into a live project.
 
-## Future Enhancements
+## Future Enhancements (Roadmap)
 
-- Date register for added cards
-- Cards replacement
-- Card folders or groups
-- Profile picture edition
-- Css Masonry
-- Card size adjustment
-- Reset form validations
+- [ ] Add creation dates to individual cards.
+- [ ] Implement a card reordering or replacement mechanism.
+- [ ] Group photos into custom folders or categories.
+- [ ] Apply a CSS Masonry layout grid to the image feed.
+- [ ] Allow users to adjust grid card sizes on the fly.
+- [ ] Automatically reset active validation errors when a modal closes.
+- [ ] Error message for the user using the catch in the index.js.
 
 ## Contributing
 
