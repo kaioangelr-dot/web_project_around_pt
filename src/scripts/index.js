@@ -10,7 +10,7 @@ import FormValidator from "./FormValidator.js";
 
 import Card from "./Card.js";
 
-import PopupWithImage from "./components/PopupWithImage.js";
+import PopupWithImage from "./Components/PopupWithImage.js";
 
 import Api from "./Components/Api.js";
 
