@@ -28,6 +28,7 @@ import {
   avatarBtn,
   avatarForm,
 } from "./constants/constants.js";
+
 import PopupWithConfirmation from "./Components/PopupWithConfirmation.js";
 
 //----------------------------------------------------//   Instances   //--------------------------------------------//
@@ -54,7 +55,7 @@ const api = new Api({
   },
 });
 
-//----------------------------------------------------//   Form handles   //--------------------------------------------//
+//----------------------------------------------------//   handles   //--------------------------------------------//
 
 //adds the new profile name and description to the page and closes the edit popup when the form is submitted
 function handleProfileFormSubmit(inputs) {
