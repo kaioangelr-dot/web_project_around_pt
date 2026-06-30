@@ -84,3 +84,7 @@ web_project_around_pt/
     └── images/
         └── [profile and card images]
 ```
+
+## GitHub Pages
+
+[Acess my project here](https://kaioangelr-dot.github.io/web_project_around_pt/)
